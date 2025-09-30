@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
-import { globalErrorHandler } from './middleware/globalMiddleware';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { globalErrorHandler } from './common/middleware/globalMiddleware';
+import customerRouter from './customers/customerRouter';
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Hello from order service service!' });
 });
+
+app.use('/customers', customerRouter);
 
 app.use(globalErrorHandler);
 

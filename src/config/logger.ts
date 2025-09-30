@@ -19,7 +19,7 @@ import { configENV } from './config';
 const logger = winston.createLogger({
   level: 'info',
   defaultMeta: {
-    serviceName: 'template-service',
+    serviceName: 'order-service',
   },
   format: winston.format.combine(
     winston.format.timestamp(),

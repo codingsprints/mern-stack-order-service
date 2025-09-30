@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { HttpError } from 'http-errors';
-import logger from '../config/logger';
 import { v4 as uuidV4 } from 'uuid';
-import { configENV } from '../config/config';
-import { NODE_ENV_VAL } from '../config/constants';
+import { configENV } from '../../config/config';
+import { NODE_ENV_VAL } from '../constants/constants';
+import logger from '../../config/logger';
 
 export const ApiErrorHandler = (
   error: HttpError,
