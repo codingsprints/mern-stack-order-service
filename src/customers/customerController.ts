@@ -21,18 +21,29 @@ export class CustomerController {
           email,
           addresses: [],
         });
-
-        logger.info('fetch product successfully!!', newCustomer?._id);
-        res.json({
+        logger.info('create customer successfully!!', newCustomer?._id);
+        res.status(200).json({
           code: 200,
           status: 'success',
-          message: 'fetch product successfully!!',
+          message: 'create customer successfully!!',
           data: {
             customerDto: newCustomer,
           },
           error: false,
         });
       }
+      logger.info('fetch customer successfully!!', customer?._id);
+      res.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'fetch customer successfully!!',
+        data: {
+          customerDto: customer,
+        },
+        error: false,
+      });
+    } else {
+      throw Error('something went wrong!!');
     }
   };
 
@@ -59,7 +70,17 @@ export class CustomerController {
       );
 
       // todo: add logging
-      return res.json(customer);
+
+      logger.info('Added Address successfully!!', customer?._id);
+      res.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Added Address successfully!!',
+        data: {
+          customerDto: customer,
+        },
+        error: false,
+      });
     }
   };
 }
