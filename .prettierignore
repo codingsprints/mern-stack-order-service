@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+.idea
+build
+coverage
+tsconfig.json
+package.json
