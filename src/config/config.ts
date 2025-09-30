@@ -24,10 +24,10 @@ interface Config {
 }
 
 export const configENV: Config = {
-  port: config.get('server.port') || 5002,
+  port: config.get('server.port') || 5003,
   nodeEnv: process.env.NODE_ENV || 'development',
   baseUrl: config.get('server.baseUrl') ?? '/pizza-app/catalog-service/api/v1',
   hostname: config.get('server.hostname') ?? 'localhost',
-  database_Url: config.get('database.url'),
-  jwksUri: config.get('auth.jwksUri'),
+  database_Url: config.get('database.url') || '',
+  jwksUri: config.get('auth.jwksUri') || '',
 };
