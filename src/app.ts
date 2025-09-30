@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { globalErrorHandler } from './common/middleware/globalMiddleware';
 import customerRouter from './customers/customerRouter';
+import couponRouter from './coupon/couponRouter';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/customers', customerRouter);
+app.use('/coupon', couponRouter);
 
 app.use(globalErrorHandler);
 
