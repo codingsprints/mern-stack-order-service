@@ -5,7 +5,7 @@ import logger from './logger';
 const connectDB = async () => {
   try {
     mongoose.connection.on('connected', () => {
-      logger.info('🗂️ Database connected successfully!');
+      logger.info('🗂️  Database connected successfully!');
     });
 
     mongoose.connection.on('error', (err) => {

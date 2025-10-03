@@ -21,6 +21,7 @@ interface Config {
   hostname: string;
   database_Url: string;
   jwksUri: string;
+  broker: string;
 }
 
 export const configENV: Config = {
@@ -30,4 +31,5 @@ export const configENV: Config = {
   hostname: config.get('server.hostname') ?? 'localhost',
   database_Url: config.get('database.url') || '',
   jwksUri: config.get('auth.jwksUri') || '',
+  broker: config.get('kafka.broker'),
 };
