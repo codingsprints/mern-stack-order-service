@@ -4,6 +4,7 @@ import cors from 'cors';
 import { globalErrorHandler } from './common/middleware/globalMiddleware';
 import customerRouter from './customers/customerRouter';
 import couponRouter from './coupon/couponRouter';
+import orderRouter from './order/orderRouter';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/customers', customerRouter);
 app.use('/coupon', couponRouter);
+app.use('/order', orderRouter);
 
 app.use(globalErrorHandler);
 
