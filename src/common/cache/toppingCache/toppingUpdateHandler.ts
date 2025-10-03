@@ -1,5 +1,5 @@
-import { ToppingMessage } from "../types";
-import toppingCacheModel from "./toppingCacheModel";
+import { ToppingMessage } from '../../types';
+import toppingCacheModel from './toppingCacheModel';
 
 export const handleToppingUpdate = async (value: string) => {
   // todo: wrap this parsing in try catch

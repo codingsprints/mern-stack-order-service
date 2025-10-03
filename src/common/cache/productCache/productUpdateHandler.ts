@@ -1,5 +1,5 @@
-import { ProductMessage } from "../types";
-import productCacheModel from "./productCacheModel";
+import { ProductMessage } from '../../types';
+import productCacheModel from './productCacheModel';
 
 export const handleProductUpdate = async (value: string) => {
   // todo: wrap this parsing in try catch

@@ -104,16 +104,16 @@ export class KafkaBroker implements MessageBroker {
           topic,
           partition,
         });
-        // switch (topic) {
-        //   case 'product':
-        //     await handleProductUpdate(message?.value?.toString());
-        //     return;
-        //   case 'topping':
-        //     await handleToppingUpdate(message?.value?.toString());
-        //     return;
-        //   default:
-        //     console.log('Doing nothing...');
-        // }
+        switch (topic) {
+          case 'product':
+            await handleProductUpdate(message.value?.toString() ?? '');
+            return;
+          case 'topping':
+            await handleToppingUpdate(message.value?.toString() ?? '');
+            return;
+          default:
+            console.log('Doing nothing...');
+        }
       },
     });
   }

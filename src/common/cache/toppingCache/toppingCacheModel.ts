@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { ToppingPriceCache } from "../types";
+import mongoose from 'mongoose';
+import { ToppingPriceCache } from '../../types';
 
 const toppingCacheSchama = new mongoose.Schema<ToppingPriceCache>(
   {
@@ -22,7 +22,7 @@ const toppingCacheSchama = new mongoose.Schema<ToppingPriceCache>(
 toppingCacheSchama.index({ toppingId: 1 }, { unique: true });
 
 export default mongoose.model(
-  "ToppingPricingCache",
+  'ToppingPricingCache',
   toppingCacheSchama,
-  "toppingCache",
+  'toppingCache',
 );
