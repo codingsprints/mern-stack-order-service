@@ -10,3 +10,6 @@ export const TOPIC_NAME = {
 };
 
 export const ORDER_SERVICE = 'order-service';
+
+export const DELIVERY_CHARGES = 100;
+export const TAXES_PERCENT = 18;

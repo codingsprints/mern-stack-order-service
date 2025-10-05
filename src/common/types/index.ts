@@ -15,9 +15,11 @@ export interface AuthRequest extends Request {
 }
 
 export interface PriceConfiguration {
-  priceType: 'base' | 'aditional';
-  availableOptions: {
-    [key: string]: number;
+  [key: string]: {
+    priceType: 'base' | 'aditional';
+    availableOptions: {
+      [key: string]: number;
+    };
   };
 }
 
