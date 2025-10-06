@@ -1,5 +1,6 @@
 import { NextFunction } from 'express';
 import { Request, Response } from 'express';
+import createHttpError from 'http-errors';
 import productCacheModel from '../common/cache/productCache/productCacheModel';
 import {
   CartItem,
@@ -12,6 +13,8 @@ import couponModel from '../coupon/couponModel';
 import orderModel from './orderModel';
 import { DELIVERY_CHARGES, TAXES_PERCENT } from '../common/constants/constants';
 import { OrderStatus, PaymentStatus } from './orderTypes';
+import mongoose from 'mongoose';
+import idempotencyModel from '../idempotency/idempotencyModel';
 
 export class OrderController {
   private getCurrentToppingPrice = (
@@ -40,6 +43,8 @@ export class OrderController {
       },
       0,
     );
+
+    console.log(toppingsTotal);
 
     const productTotal = Object.entries(
       item.chosenConfiguration.priceConfiguration,
@@ -144,27 +149,61 @@ export class OrderController {
 
     const finalTotal = priceAfterDiscount + taxes + DELIVERY_CHARGES;
 
-    //create order
-    const newOrder = await orderModel.create([
-      {
-        cart,
-        address,
-        comment,
-        customerId,
-        deliveryCharges: DELIVERY_CHARGES,
-        discount: discountAmount,
-        taxes,
-        tenantId,
-        total: finalTotal,
-        paymentMode,
-        orderStatus: OrderStatus.RECEIVED,
-        paymentStatus: PaymentStatus.PENDING,
-        totalPrice,
-        discountAmount,
-        priceAfterDiscount,
-        finalTotal,
-      },
-    ]);
+    const idempotencyKey = req.headers['idempotency-key'];
+
+    const idempotency = await idempotencyModel.findOne({ key: idempotencyKey });
+
+    let newOrder = idempotency ? [idempotency.response] : [];
+
+    if (!idempotency) {
+      const session = await mongoose.startSession();
+      await session.startTransaction();
+
+      try {
+        //create order
+        newOrder = await orderModel.create(
+          [
+            {
+              cart,
+              address,
+              comment,
+              customerId,
+              deliveryCharges: DELIVERY_CHARGES,
+              discount: discountAmount,
+              taxes,
+              tenantId,
+              total: finalTotal,
+              paymentMode,
+              orderStatus: OrderStatus.RECEIVED,
+              paymentStatus: PaymentStatus.PENDING,
+            },
+          ],
+          { session },
+        );
+
+        await idempotencyModel.create(
+          [{ key: idempotencyKey, response: newOrder[0] }],
+          { session },
+        );
+
+        await session.commitTransaction();
+      } catch (error: any) {
+        await session.abortTransaction();
+        await session.endSession();
+
+        return next(createHttpError(500, error.message));
+      } finally {
+        await session.endSession();
+      }
+    }
+
+    res.json({
+      code: 200,
+      status: 'success',
+      message: 'create orders successfully!!',
+      data: { orderDto: newOrder },
+      error: false,
+    });
 
     // return res.json({
     //   success: true,
@@ -174,14 +213,6 @@ export class OrderController {
     //   taxes,
     //   finalTotal,
     // });
-
-    res.json({
-      code: 200,
-      status: 'success',
-      message: 'create orders successfully!!',
-      data: { orderDto: newOrder },
-      error: false,
-    });
   };
 
   private getDiscountPercentage = async (
