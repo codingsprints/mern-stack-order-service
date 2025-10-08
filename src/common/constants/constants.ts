@@ -7,6 +7,7 @@ export const NODE_ENV_VAL = {
 export const TOPIC_NAME = {
   product: 'product',
   topping: 'topping',
+  order: 'order',
 };
 
 export const ORDER_SERVICE = 'order-service';

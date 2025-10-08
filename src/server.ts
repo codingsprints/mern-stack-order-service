@@ -12,6 +12,8 @@ const startServer = async () => {
     logger.info('🚀 Starting application...');
     await connectDB();
     broker = createMessageBroker();
+    await broker.connectProducer();
+
     await broker.connectConsumer();
     await broker.consumeMessage(
       [TOPIC_NAME.product, TOPIC_NAME.topping],

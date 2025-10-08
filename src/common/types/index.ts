@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Request from 'express';
 
 export type AuthCookies = {
   accessToken: string;

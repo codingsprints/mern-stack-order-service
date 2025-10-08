@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { Coupon } from "./couponTypes";
+import mongoose from 'mongoose';
+import { Coupon } from './couponTypes';
 
 const couponSchema = new mongoose.Schema<Coupon>(
   {
@@ -30,4 +30,4 @@ const couponSchema = new mongoose.Schema<Coupon>(
 // Create index for faster lookup
 couponSchema.index({ tenantId: 1, code: 1 }, { unique: true });
 
-export default mongoose.model("Coupon", couponSchema);
+export default mongoose.model('Coupon', couponSchema);

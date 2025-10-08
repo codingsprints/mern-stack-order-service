@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import couponModel from './couponModel';
 import createHttpError from 'http-errors';
-import logger from '../config/logger';
 
 export class CouponController {
   create = async (req: Request, res: Response) => {
@@ -34,7 +33,7 @@ export class CouponController {
   };
 
   // todo: Complete CRUD assignment. This will be used in dashboard.
-  update = async (req: Request, res: Response, next: NextFunction) => {
+  update = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { title, code, validUpto, discount, tenantId } = req.body;
     const { role, tenant } = (req as any).auth;
@@ -68,7 +67,7 @@ export class CouponController {
   };
 
   // 🔹 Get List
-  list = async (req: Request, res: Response, next: NextFunction) => {
+  list = async (req: Request, res: Response) => {
     const { role, tenant } = (req as any).auth;
     let coupons;
 
@@ -88,7 +87,7 @@ export class CouponController {
   };
 
   // 🔹 Delete Coupon
-  delete = async (req: Request, res: Response, next: NextFunction) => {
+  delete = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { role, tenant } = (req as any).auth;
 
@@ -114,7 +113,7 @@ export class CouponController {
     });
   };
 
-  verify = async (req: Request, res: Response, next: NextFunction) => {
+  verify = async (req: Request, res: Response) => {
     const { code, tenantId } = req.body;
 
     if (!code || !tenantId) {

@@ -8,7 +8,6 @@ export class CustomerController {
     if (req.auth) {
       // todo: add these fields to jwt in auth service.
       const { sub: userId, firstName, lastName, email } = req.auth;
-      console.log('auth:', req.auth);
 
       // todo: implement service layer.
       const customer = await customerModel.findOne({ userId });

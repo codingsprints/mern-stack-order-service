@@ -3,9 +3,9 @@ import path from 'path';
 import config from 'config';
 import { NODE_ENV_VAL } from '../common/constants/constants';
 
-const nodeENV: string = NODE_ENV_VAL.DEVELOPMENT;
+// const nodeENV: string = NODE_ENV_VAL.DEVELOPMENT;
 // const nodeENV: string = NODE_ENV_VAL.TEST;
-// const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
+const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
 
 dotenv.config({
   path: path.resolve(
@@ -22,6 +22,9 @@ interface Config {
   database_Url: string;
   jwksUri: string;
   broker: string;
+  stripeSecretKey: string;
+  stripePublicKey: string;
+  clientUI: string;
 }
 
 export const configENV: Config = {
@@ -32,4 +35,7 @@ export const configENV: Config = {
   database_Url: config.get('database.url') || '',
   jwksUri: config.get('auth.jwksUri') || '',
   broker: config.get('kafka.broker'),
+  stripeSecretKey: config.get('stripe.stripe_secret_key'),
+  stripePublicKey: config.get('stripe.stripe_public_key'),
+  clientUI: config.get('frontend.clientUI') ?? '',
 };

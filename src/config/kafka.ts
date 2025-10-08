@@ -1,4 +1,3 @@
-import config from 'config';
 import {
   Consumer,
   EachMessagePayload,
@@ -15,7 +14,7 @@ export class KafkaBroker implements MessageBroker {
   private producer: Producer;
 
   constructor(clientId: string, brokers: string[]) {
-    let kafkaConfig: KafkaConfig = {
+    const kafkaConfig: KafkaConfig = {
       clientId,
       brokers,
     };
@@ -74,20 +73,20 @@ export class KafkaBroker implements MessageBroker {
    * @param message - The message to send
    * @throws {Error} - When the producer is not connected
    */
-  // async sendMessage(topic: string, message: string, key: string) {
-  //   const data: { value: string; key?: string } = {
-  //     value: message,
-  //   };
+  async sendMessage(topic: string, message: string, key?: string) {
+    const data: { value: string; key?: string } = {
+      value: message,
+    };
 
-  //   if (key) {
-  //     data.key = key;
-  //   }
+    if (key) {
+      data.key = key;
+    }
 
-  //   await this.producer.send({
-  //     topic,
-  //     messages: [data],
-  //   });
-  // }
+    await this.producer.send({
+      topic,
+      messages: [{ value: message }],
+    });
+  }
 
   async consumeMessage(topics: string[], fromBeginning: boolean = false) {
     await this.consumer.subscribe({ topics, fromBeginning });
