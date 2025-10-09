@@ -10,7 +10,7 @@ export const createMessageBroker = (): MessageBroker => {
   logger.info('✅ connecting to kafka broker...');
   // singleton
   if (!broker) {
-    broker = new KafkaBroker(ORDER_SERVICE, [configENV.broker]);
+    broker = new KafkaBroker(ORDER_SERVICE, configENV.broker);
   }
   return broker;
 };

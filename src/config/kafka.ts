@@ -8,28 +8,30 @@ import {
 import { MessageBroker } from '../common/types/broker';
 import { handleProductUpdate } from '../common/cache/productCache/productUpdateHandler';
 import { handleToppingUpdate } from '../common/cache/toppingCache/toppingUpdateHandler';
+import { NODE_ENV_VAL } from '../common/constants/constants';
+import { configENV } from './config';
 
 export class KafkaBroker implements MessageBroker {
   private consumer: Consumer;
   private producer: Producer;
 
   constructor(clientId: string, brokers: string[]) {
-    const kafkaConfig: KafkaConfig = {
+    let kafkaConfig: KafkaConfig = {
       clientId,
       brokers,
     };
-    // if (process.env.NODE_ENV === 'production') {
-    //   kafkaConfig = {
-    //     ...kafkaConfig,
-    //     ssl: config.get('kafka.ssl'),
-    //     connectionTimeout: 45000,
-    //     sasl: {
-    //       mechanism: 'plain',
-    //       username: config.get('kafka.sasl.username'),
-    //       password: config.get('kafka.sasl.password'),
-    //     },
-    //   };
-    // }
+    if (configENV.nodeEnv === NODE_ENV_VAL.PRODUCTION) {
+      kafkaConfig = {
+        ...kafkaConfig,
+        ssl: configENV.kafkaSSL,
+        connectionTimeout: 45000,
+        sasl: {
+          mechanism: 'plain',
+          username: configENV.kafkaUserName,
+          password: configENV.kafkaPassword,
+        },
+      };
+    }
 
     const kafka = new Kafka(kafkaConfig);
 

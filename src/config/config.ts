@@ -3,9 +3,9 @@ import path from 'path';
 import config from 'config';
 import { NODE_ENV_VAL } from '../common/constants/constants';
 
-// const nodeENV: string = NODE_ENV_VAL.DEVELOPMENT;
+const nodeENV: string = NODE_ENV_VAL.DEVELOPMENT;
 // const nodeENV: string = NODE_ENV_VAL.TEST;
-const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
+// const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
 
 dotenv.config({
   path: path.resolve(
@@ -21,21 +21,29 @@ interface Config {
   hostname: string;
   database_Url: string;
   jwksUri: string;
-  broker: string;
+  broker: string[];
   stripeSecretKey: string;
   stripePublicKey: string;
   clientUI: string;
+  adminUI: string;
+  kafkaSSL: true;
+  kafkaUserName: string;
+  kafkaPassword: string;
 }
 
 export const configENV: Config = {
   port: config.get('server.port') || 5003,
-  nodeEnv: process.env.NODE_ENV || 'development',
+  nodeEnv: process.env.NODE_ENV || NODE_ENV_VAL.PRODUCTION,
   baseUrl: config.get('server.baseUrl') ?? '/pizza-app/catalog-service/api/v1',
   hostname: config.get('server.hostname') ?? 'localhost',
   database_Url: config.get('database.url') || '',
   jwksUri: config.get('auth.jwksUri') || '',
-  broker: config.get('kafka.broker'),
-  stripeSecretKey: config.get('stripe.stripe_secret_key'),
-  stripePublicKey: config.get('stripe.stripe_public_key'),
-  clientUI: config.get('frontend.clientUI') ?? '',
+  broker: config.get('kafka.broker') || [],
+  stripeSecretKey: config.get('stripe.stripe_secret_key') || '',
+  stripePublicKey: config.get('stripe.stripe_public_key') || '',
+  clientUI: config.get('frontend.clientUI') || '',
+  adminUI: config.get('frontend.adminUI') || '',
+  kafkaSSL: config.get('kafka.ssl') || false,
+  kafkaUserName: config.get('kafka.sasl.username') || '',
+  kafkaPassword: config.get('kafka.sasl.password') || '',
 };
