@@ -10,6 +10,9 @@ import { configENV } from './config/config';
 
 const app = express();
 
+app.use(cookieParser());
+app.use(express.json());
+
 const ALLOWED_DOMAINS = [configENV.adminUI, configENV.clientUI];
 
 app.use(
@@ -18,9 +21,6 @@ app.use(
     credentials: true,
   }),
 );
-
-app.use(cookieParser());
-app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Hello from order service service!' });
