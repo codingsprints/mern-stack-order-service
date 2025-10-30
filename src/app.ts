@@ -23,7 +23,7 @@ app.use(
 );
 
 app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Hello from order service service!' });
+  res.json({ message: 'Hello from order service!' });
 });
 
 app.use('/customers', customerRouter);
